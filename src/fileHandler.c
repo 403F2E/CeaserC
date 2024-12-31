@@ -2,6 +2,10 @@
 #include "../headers/fileHandler.h"
 
 FILE *openFile(const char *file) {
-  FILE *file = fopen(file, 'r');
-  return &file;
+  FILE *filestream = fopen(file, "r");
+
+  if (filestream == NULL) {
+    perror("Error opening file");
+  }
+  return filestream;
 }
