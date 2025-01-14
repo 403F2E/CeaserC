@@ -1,5 +1,5 @@
 
-#include "../headers/fileHandler.h"
+#include "../headers/utils.h"
 
 FILE *openFile(const char *file) {
   FILE *filestream = fopen(file, "r");

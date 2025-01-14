@@ -1,17 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
 
-#include "../headers/Tokenizer.h"
-#include "../headers/fileHandler.h"
+#include "../headers/utils.h"
 
-int main(int argc, char *argv[]) {
+int main(const int argc, const char *argv[]) {
   if (argc < 2) {
     printf("Usage: %s <FILE PATH to Compile> ...\n", argv[0]);
     return 1;
   }
+
   FILE *file = openFile(argv[1]);
-  if (file == NULL)
-    return 1;
+
+  lexer(file);
 
   fclose(file);
   return 0;
