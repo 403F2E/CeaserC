@@ -26,7 +26,7 @@ typedef enum {
 
 // List of Types built for the variable of the languge
 typedef enum {
-  UNDEFINED,
+  IDENTIFIER,
   INT,
   FLOAT,
   CHAR,

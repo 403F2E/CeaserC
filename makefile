@@ -4,17 +4,20 @@ CFLAGS = -Wall -g -I./headers
 
 SRC_DIR = ./src
 
-SRCS = $(wildcard $(SRC_DIR)/*.c)
+SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*c)
 
 TEST_FILE = app.calc
 
 EXEC = compy
 
-all: $(EXEC)
+RUN = run
 
-$(EXEC): $(SRCS)
-	$(CC) $(SRCS) $(CFLAGS) -o $(EXEC)
-	.\$(EXEC) .\$(TEST_FILE)
+all: $(RUN)
 
-clean:
-	rm .\$(EXEC)
+$(RUN): $(SRCS)
+	@$(CC) $(SRCS) $(CFLAGS) -o $(EXEC)
+	@.\$(EXEC) .\$(TEST_FILE)
+
+clean: $(EXEC)
+	@clear
+	@rm .\$(EXEC)

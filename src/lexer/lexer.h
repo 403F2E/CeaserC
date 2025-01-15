@@ -4,6 +4,6 @@
 #ifndef _LEXER
 #define _LEXER
 
-void lexer(FILE *);
+void lexer(FILE *file);
 
 #endif
