@@ -1,9 +1,5 @@
 
-#include <stdio.h>
-
-#ifndef FILEHANDLER
-#define FILEHANDLER
+#pragma once
+#include "utils.h"
 
 FILE *openFile(const char *file);
-
-#endif

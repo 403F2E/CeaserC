@@ -73,7 +73,9 @@ void lexer(FILE *file) {
   char cursor;
 
   while ((cursor = fgetc(file)) != EOF) {
-    if (cursor == ':')
+    if (cursor == ' ')
+      continue;
+    else if (cursor == ':')
       printf("COLONS Found!!\n");
     else if (cursor == '=')
       printf("AFFECT FOUND!!\n");

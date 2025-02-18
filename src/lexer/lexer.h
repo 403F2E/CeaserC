@@ -1,9 +1,6 @@
 
-#include <stdio.h>
 
-#ifndef _LEXER
-#define _LEXER
+#pragma once
+#include "../../headers/utils.h"
 
 void lexer(FILE *file);
-
-#endif

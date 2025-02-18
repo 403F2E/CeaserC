@@ -6,7 +6,7 @@ SRC_DIR = ./src
 
 SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*c)
 
-TEST_FILE = app.calc
+TEST_FILE = app.kno
 
 EXEC = compy
 

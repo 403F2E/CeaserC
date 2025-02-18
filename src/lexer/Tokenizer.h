@@ -1,4 +1,6 @@
 
+#pragma once
+
 // List of Keyword of the language
 typedef enum {
   DEF,
@@ -51,3 +53,7 @@ typedef struct {
   TypeLiteral type;
   double value;
 } TokenLiteral;
+
+typedef struct {
+  // til finding the listing method for sendin to the parser
+} TokensList;
