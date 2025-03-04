@@ -1,59 +1,51 @@
 
 #pragma once
 
+#include <ctype.h>
+#include <stddef.h>
+
 // List of Keyword of the language
 typedef enum {
-  DEF,
+  IDENTIFIER,
+  FUNC,
   CLASS,
   EXIT,
-} TypeKeyword;
 
-// List of Sepcial Symbols of the language
-typedef enum {
+  // List of Sepcial Symbols of the language
   AFFECT,
   COLON,
   SEMI,
   OPEN_PAREN,
   CLOSE_PAREN,
-} TypeSeparator;
 
-// List of Comaprison Keyword of the language
-typedef enum {
+  // List of Comparison Keyword of the language
   EQUAL,
   GTHAN,
   ITHAN,
   GT_EQUAL,
   IT_EQUAL,
-} TypeComparison;
 
-// List of Types built for the variable of the languge
-typedef enum {
-  IDENTIFIER,
+  // List of Types built for the variable of the languge
   INT,
   FLOAT,
   CHAR,
   STRING,
   BOOL,
-} TypeLiteral;
 
-// building the structs for each token type
-typedef struct {
-  TypeKeyword type;
-} TokenKeyword;
+  // Special type of the language
+  ALGO,
 
-typedef struct {
-  TypeSeparator type;
-} TokenSeparator;
+} TokenType;
 
-typedef struct {
-  TypeComparison type;
-} TokenComparison;
+/*** building the structs for each token type ***/
 
+// Token Type literal
 typedef struct {
-  TypeLiteral type;
-  double value;
-} TokenLiteral;
+  TokenType type;
+  char *value;
+} Token;
 
-typedef struct {
-  // til finding the listing method for sendin to the parser
-} TokensList;
+typedef struct TokenList {
+  Token token;
+  struct TokenList *head, *prev, *tail;
+} TokenList;

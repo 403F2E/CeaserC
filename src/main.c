@@ -18,14 +18,14 @@ int main(const int argc, const char *argv[]) {
     return 1;
   }
 
-  if (extVerifier(argv[1], ".kno")) {
+  if (extVerifier(argv[1], ".rzc")) {
     printf("Error: Unsupported file extension. Please use .kno\n");
     return 1;
   }
 
   FILE *file = openFile(argv[1]);
 
-  lexer(file);
+  TokenList *tokenList = lexer(file);
 
   fclose(file);
   return 0;

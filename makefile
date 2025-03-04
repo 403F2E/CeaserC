@@ -6,9 +6,9 @@ SRC_DIR = ./src
 
 SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*c)
 
-TEST_FILE = app.kno
+TEST_FILE = app.rzc
 
-EXEC = compy
+EXEC = czr
 
 RUN = run
 
