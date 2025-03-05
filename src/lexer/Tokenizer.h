@@ -47,5 +47,5 @@ typedef struct {
 
 typedef struct TokenList {
   Token token;
-  struct TokenList *head, *prev, *tail;
+  struct TokenList *prev, *tail;
 } TokenList;

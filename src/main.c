@@ -1,6 +1,18 @@
 
 #include "../headers/utils.h" // IWYU pragma: keep
 
+void printTokenList(TokenList *tokenlist) {
+  TokenList *current = tokenlist->tail;
+
+  while (current != tokenlist) {
+    printf("The token value : %s\n", current->token.value);
+    printf("The token type : %d\n", current->token.type);
+    current = current->tail;
+  }
+
+  return;
+}
+
 int extVerifier(const char *filename, const char *extension) {
   size_t len_filename = strlen(filename);
   size_t len_ext = strlen(extension);
@@ -26,6 +38,8 @@ int main(const int argc, const char *argv[]) {
   FILE *file = openFile(argv[1]);
 
   TokenList *tokenList = lexer(file);
+  printf("\n******\n");
+  printTokenList(tokenList);
 
   fclose(file);
   return 0;
