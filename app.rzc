@@ -1,2 +1,2 @@
-x: float = 1234;
+x: float = 12.34;
 y: int = 46;

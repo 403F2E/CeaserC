@@ -117,7 +117,6 @@ Token identifyAlphanum(char *cursor, FILE *file) {
         printf("IDENTIFIER Found!!\n");
       }
 
-      printf("%s\n", token.value);
       ungetc(*(cursor), file);
       return token;
     }
@@ -148,30 +147,42 @@ TokenList *lexer(FILE *file) {
   while ((cursor = fgetc(file)) != EOF) {
     if (cursor == ' ')
       continue;
-    else if (cursor == '@') {
-      char value = cursor + '\0';
-      token = createToken(ALGO, &value);
+    else if (cursor == EOL) {
+      char *value = (char *)malloc(sizeof(char));
+      value = "\\n";
+      token = createToken(ENDLINE, value);
+      printf("NEWLINE FOUND!!\n");
+      printf("Token value : %s!!\n", token.value);
+      printf("Token type : %d\n", token.type);
+      printf("*****\n\n");
+    } else if (cursor == '@') {
+      char *value = (char *)malloc(sizeof(char));
+      value = "@";
+      token = createToken(ALGO, value);
       printf("ALGO FOUND!!\n");
       printf("Token value : %s!!\n", token.value);
       printf("Token type : %d\n", token.type);
       printf("*****\n\n");
     } else if (cursor == ':') {
-      char value = cursor + '\0';
-      token = createToken(COLON, &value);
+      char *value = (char *)malloc(sizeof(char));
+      value = ":";
+      token = createToken(COLON, value);
       printf("COLONS Found!!\n");
       printf("Token value : %s!!\n", token.value);
       printf("Token type : %d\n", token.type);
       printf("*****\n\n");
     } else if (cursor == '=') {
-      char value = cursor + '\0';
-      token = createToken(AFFECT, &value);
+      char *value = (char *)malloc(sizeof(char));
+      value = "=";
+      token = createToken(AFFECT, value);
       printf("AFFECT FOUND!!\n");
       printf("Token value : %s!!\n", token.value);
       printf("Token type : %d\n", token.type);
       printf("*****\n\n");
     } else if (cursor == ';') {
-      char value = cursor + '\0';
-      token = createToken(SEMI, &value);
+      char *value = (char *)malloc(sizeof(char));
+      value = ";";
+      token = createToken(SEMI, value);
       printf("SEMICOLONS Found!!\n");
       printf("Token value : %s!!\n", token.value);
       printf("Token type : %d\n", token.type);

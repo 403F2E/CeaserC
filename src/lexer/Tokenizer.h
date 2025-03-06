@@ -4,6 +4,8 @@
 #include <ctype.h>
 #include <stddef.h>
 
+#define EOL '\n'
+
 // List of Keyword of the language
 typedef enum {
   IDENTIFIER,
@@ -12,6 +14,7 @@ typedef enum {
   EXIT,
 
   // List of Sepcial Symbols of the language
+  ENDLINE,
   AFFECT,
   COLON,
   SEMI,
