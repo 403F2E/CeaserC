@@ -1,12 +1,15 @@
 
 #include "../headers/utils.h" // IWYU pragma: keep
+#include <stdio.h>
 
 void printTokenList(TokenList *tokenlist) {
   TokenList *current = tokenlist->tail;
 
   while (current != tokenlist) {
+    printf("****\n");
     printf("The token value : %s\n", current->token.value);
     printf("The token type : %d\n", current->token.type);
+    printf("****\n");
     current = current->tail;
   }
 

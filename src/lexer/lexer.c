@@ -1,11 +1,12 @@
 
 #include "../../headers/utils.h" // IWYU pragma: keep
 #include "Tokenizer.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 // Create Token instance
-Token createToken(int type, char *value) {
+Token tokenizer(int type, char *value) {
   Token token;
   token.type = type;
 
@@ -16,7 +17,7 @@ Token createToken(int type, char *value) {
     exit(EXIT_FAILURE);
   }
 
-  token.value = value;
+  strcpy(token.value, value);
   return token;
 }
 
@@ -52,12 +53,12 @@ TokenList *addTokenEnd(TokenList *tokenList, Token token) {
   return tokenList;
 }
 
-// function determine the whole number and parse it into a double
-Token isNumber(char *cursor, FILE *file) {
-  ungetc(*(cursor), file);
+// function determine the whole number
+Token identifyNumber(char *cursor, FILE *file) {
+  ungetc(*cursor, file);
 
   Token token;
-  token.type = INT;
+  token.type = NUMERIC;
   token.value = (char *)malloc(sizeof(char));
   if (token.value == NULL) {
     free(token.value);
@@ -68,7 +69,6 @@ Token isNumber(char *cursor, FILE *file) {
 
   while ((*cursor = fgetc(file)) != EOF) {
     if (!isdigit(*cursor) && *cursor != '.') {
-      printf("%s\n", token.value);
       ungetc(*(cursor), file);
       return token;
     }
@@ -94,8 +94,9 @@ Token isNumber(char *cursor, FILE *file) {
 // Function to read the whole token and determine whether it is a type or an
 // identifier or a keyword
 Token identifyAlphanum(char *cursor, FILE *file) {
-  ungetc(*(cursor), file);
+  ungetc(*cursor, file);
   Token token;
+  token.type = KEYWORD;
   token.value = (char *)malloc(sizeof(char));
   if (token.value == NULL) {
     free(token.value);
@@ -106,17 +107,6 @@ Token identifyAlphanum(char *cursor, FILE *file) {
 
   while ((*cursor = fgetc(file)) != EOF) {
     if (!isalpha(*cursor)) {
-      if (!strcmp(token.value, "int")) {
-        token.type = INT;
-        printf("INT TYPE Found!!\n");
-      } else if (!strcmp(token.value, "float")) {
-        token.type = FLOAT;
-        printf("FLOAT TYPE Found!!\n");
-      } else {
-        token.type = IDENTIFIER;
-        printf("IDENTIFIER Found!!\n");
-      }
-
       ungetc(*(cursor), file);
       return token;
     }
@@ -139,6 +129,72 @@ Token identifyAlphanum(char *cursor, FILE *file) {
   return token;
 }
 
+/*** The process to identify symbols ***/
+bool issymbol(char cursor) {
+  return (cursor == ':' || cursor == ';' || cursor == '@' ||
+          cursor == '='); // symbols currently identified
+}
+
+// identify the symbol
+Token identifySymbol(char *cursor, FILE *file) {
+  Token token;
+  token.type = SYMBOL;
+  token.value = (char *)malloc(sizeof(char));
+  if (token.value == NULL) {
+    free(token.value);
+    perror("Memory allocation failed.\n");
+    return token;
+  }
+  token.value[0] = *cursor;
+  token.value[1] = '\0';
+
+  return token;
+}
+
+/** The process to identify Escape Sequence **/
+bool isescapeSeq(char cursor) {
+  return (cursor == '\n' || cursor == '\t' || cursor == '\v' ||
+          cursor == '\r' || cursor == '\\' ||
+          cursor == '\b'); // the current Escape sequences
+}
+
+char *whichEscSeq(char cursor) {
+  switch (cursor) {
+  case '\n':
+    return "\\n";
+  case '\t':
+    return "\\t";
+  case '\v':
+    return "\\v";
+  case '\r':
+    return "\\r";
+  case '\\':
+    return "\\\\";
+  case '\b':
+    return "\\b";
+  default:
+    return "";
+  }
+}
+
+Token identifyEscapeSequence(char *cursor, FILE *file) {
+  Token token;
+  token.type = ESCSEQ;
+  token.value = (char *)malloc(sizeof(char));
+  if (token.value == NULL) {
+    free(token.value);
+    perror("Memory allocation failed.\n");
+    return token;
+  }
+
+  strcpy(token.value, whichEscSeq(*cursor));
+
+  return token;
+}
+
+/*
+ *
+ */
 TokenList *lexer(FILE *file) {
   char cursor;
   Token token;
@@ -147,61 +203,27 @@ TokenList *lexer(FILE *file) {
   while ((cursor = fgetc(file)) != EOF) {
     if (cursor == ' ')
       continue;
-    else if (cursor == EOL) {
-      char *value = (char *)malloc(sizeof(char));
-      value = "\\n";
-      token = createToken(ENDLINE, value);
-      printf("NEWLINE FOUND!!\n");
-      printf("Token value : %s!!\n", token.value);
-      printf("Token type : %d\n", token.type);
-      printf("*****\n\n");
-    } else if (cursor == '@') {
-      char *value = (char *)malloc(sizeof(char));
-      value = "@";
-      token = createToken(ALGO, value);
-      printf("ALGO FOUND!!\n");
-      printf("Token value : %s!!\n", token.value);
-      printf("Token type : %d\n", token.type);
-      printf("*****\n\n");
-    } else if (cursor == ':') {
-      char *value = (char *)malloc(sizeof(char));
-      value = ":";
-      token = createToken(COLON, value);
-      printf("COLONS Found!!\n");
-      printf("Token value : %s!!\n", token.value);
-      printf("Token type : %d\n", token.type);
-      printf("*****\n\n");
-    } else if (cursor == '=') {
-      char *value = (char *)malloc(sizeof(char));
-      value = "=";
-      token = createToken(AFFECT, value);
-      printf("AFFECT FOUND!!\n");
-      printf("Token value : %s!!\n", token.value);
-      printf("Token type : %d\n", token.type);
-      printf("*****\n\n");
-    } else if (cursor == ';') {
-      char *value = (char *)malloc(sizeof(char));
-      value = ";";
-      token = createToken(SEMI, value);
-      printf("SEMICOLONS Found!!\n");
-      printf("Token value : %s!!\n", token.value);
-      printf("Token type : %d\n", token.type);
-      printf("*****\n\n");
-    } else if (isalpha(cursor)) {
+    else if (isalpha(cursor))
       token = identifyAlphanum(&cursor, file);
-      printf("Token value : %s!!\n", token.value);
-      printf("Token type : %d\n", token.type);
-      printf("*****\n\n");
-    } else if (isdigit(cursor)) {
-      token = isNumber(&cursor, file);
-      printf("NUMBER found!!\n\n");
-      printf("Token value : %s!!\n", token.value);
-      printf("Token type : %d\n", token.type);
-      printf("*****\n\n");
+    else if (isdigit(cursor))
+      token = identifyNumber(&cursor, file);
+    else if (issymbol(cursor))
+      token = identifySymbol(&cursor, file);
+    else if (isescapeSeq(cursor))
+      token = identifyEscapeSequence(&cursor, file);
+    else {
+      fprintf(stderr, "Invalid charater %c.", cursor);
+      exit(EXIT_FAILURE);
     }
 
     tokenList = addTokenEnd(tokenList, token);
   }
+
+  char *value = (char *)malloc(sizeof(char));
+  value = "EOF";
+  token = tokenizer(EOF, value);
+
+  tokenList = addTokenEnd(tokenList, token);
 
   return tokenList;
 }
