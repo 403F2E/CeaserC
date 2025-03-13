@@ -131,8 +131,8 @@ Token identifyAlphanum(char *cursor, FILE *file) {
 
 /*** The process to identify symbols ***/
 bool issymbol(char cursor) {
-  return (cursor == ':' || cursor == ';' || cursor == '@' ||
-          cursor == '='); // symbols currently identified
+  return (cursor == ':' || cursor == ';' || cursor == '@' || cursor == '=' ||
+          cursor == '(' || cursor == ')'); // symbols currently identified
 }
 
 // identify the symbol
@@ -153,9 +153,8 @@ Token identifySymbol(char *cursor, FILE *file) {
 
 /** The process to identify Escape Sequence **/
 bool isescapeSeq(char cursor) {
-  return (cursor == '\n' || cursor == '\t' || cursor == '\v' ||
-          cursor == '\r' || cursor == '\\' ||
-          cursor == '\b'); // the current Escape sequences
+  const char escapeseq[] = "\"\'\n\t\v\b\r\\";
+  return strchr(escapeseq, cursor) != NULL;
 }
 
 char *whichEscSeq(char cursor) {
@@ -172,6 +171,10 @@ char *whichEscSeq(char cursor) {
     return "\\\\";
   case '\b':
     return "\\b";
+  case '\'':
+    return "\'";
+  case '\"':
+    return "\"";
   default:
     return "";
   }

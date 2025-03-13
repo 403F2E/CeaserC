@@ -61,4 +61,11 @@ typedef enum {
   BITWISE_RSHL,
 } PARSED_SYMBOLS;
 
-void parser();
+typedef struct AST_object {
+  union {
+    int placeholder;
+  };
+  struct AST_object *next, *prev;
+} AST_object;
+
+AST_object *parser(TokenList *);

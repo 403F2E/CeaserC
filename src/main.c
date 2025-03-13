@@ -1,5 +1,6 @@
 
 #include "../headers/utils.h" // IWYU pragma: keep
+#include "parser/parser.h"
 #include <stdio.h>
 
 void printTokenList(TokenList *tokenlist) {
@@ -44,6 +45,10 @@ int main(const int argc, const char *argv[]) {
   printf("\n******\n");
   printTokenList(tokenList);
 
+  /*AST_object *ast = parser(tokenList);*/
+
   fclose(file);
+  free(tokenList);
+  /*free(ast);*/
   return 0;
 }
