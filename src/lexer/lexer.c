@@ -1,5 +1,5 @@
 
-#include "../../headers/utils.h" // IWYU pragma: keep
+#include "lexer.h"
 #include "Tokenizer.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -30,7 +30,7 @@ TokenList *createTokenList() {
     exit(EXIT_FAILURE);
   }
 
-  tokenList->tail = tokenList->prev = tokenList;
+  tokenList->tail = tokenList;
 
   return tokenList;
 }
@@ -45,10 +45,8 @@ TokenList *addTokenEnd(TokenList *tokenList, Token token) {
   }
 
   newTokenNode->token = token;
-  newTokenNode->prev = tokenList->prev;
-  newTokenNode->tail = tokenList;
-  tokenList->prev->tail = newTokenNode;
-  tokenList->prev = newTokenNode;
+  newTokenNode->tail = NULL;
+  tokenList->tail = newTokenNode;
 
   return tokenList;
 }
@@ -69,7 +67,7 @@ Token identifyNumber(char *cursor, FILE *file) {
 
   while ((*cursor = fgetc(file)) != EOF) {
     if (!isdigit(*cursor) && *cursor != '.') {
-      ungetc(*(cursor), file);
+      ungetc(*cursor, file);
       return token;
     }
 
@@ -107,7 +105,7 @@ Token identifyAlphanum(char *cursor, FILE *file) {
 
   while ((*cursor = fgetc(file)) != EOF) {
     if (!isalpha(*cursor)) {
-      ungetc(*(cursor), file);
+      ungetc(*cursor, file);
       return token;
     }
 
@@ -132,7 +130,8 @@ Token identifyAlphanum(char *cursor, FILE *file) {
 /*** The process to identify symbols ***/
 bool issymbol(char cursor) {
   return (cursor == ':' || cursor == ';' || cursor == '@' || cursor == '=' ||
-          cursor == '(' || cursor == ')'); // symbols currently identified
+          cursor == '(' || cursor == ')' || cursor == '{' ||
+          cursor == '}'); // symbols currently identified
 }
 
 // identify the symbol
@@ -145,7 +144,30 @@ Token identifySymbol(char *cursor, FILE *file) {
     perror("Memory allocation failed.\n");
     return token;
   }
+
   token.value[0] = *cursor;
+
+  char range_check = fgetc(file);
+
+  if (*cursor == ':' && range_check == '=') {
+
+    char *tmp = (char *)realloc(token.value, (strlen(token.value) + 2));
+    if (tmp == NULL) {
+      free(token.value);
+      token.value = NULL;
+      perror("Memory reallocation failed for the current token value.\n");
+      exit(EXIT_FAILURE);
+    }
+
+    token.value = tmp;
+
+    size_t len = strlen(token.value);
+    token.value[len] = range_check;
+    token.value[len + 1] = '\0';
+
+    return token;
+  }
+
   token.value[1] = '\0';
 
   return token;

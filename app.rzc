@@ -1,5 +1,6 @@
-x: float = 12.34;
-y: int = 46;
+let x: float = 12.34;
+let y: int = 46;
 
-for i in 1..10
-  print("hello")
+for i in 1:=10 {
+  print("hello");
+}

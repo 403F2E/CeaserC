@@ -4,9 +4,11 @@ CFLAGS = -Wall -g -I./headers
 
 SRC_DIR = ./src
 
+BUILD_DIR = ./build
+
 SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*c)
 
-TEST_FILE = app.rzc
+TEST_FILE = ./app.rzc
 
 EXEC = czr
 
@@ -15,9 +17,9 @@ RUN = run
 all: $(RUN)
 
 $(RUN): $(SRCS)
-	@$(CC) $(SRCS) $(CFLAGS) -o $(EXEC)
-	@.\$(EXEC) .\$(TEST_FILE)
+	@$(CC) $(SRCS) $(CFLAGS) -o $(BUILD_DIR)/$(EXEC)
+	$(BUILD_DIR)/$(EXEC) $(TEST_FILE)
 
-clean: $(EXEC)
+clean: $(BUILD_DIR)/$(EXEC)
 	@clear
-	@rm .\$(EXEC)
+	@rm $(BUILD_DIR)/$(EXEC)

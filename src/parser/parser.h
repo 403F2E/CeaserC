@@ -1,7 +1,7 @@
 
 
 #pragma once
-#include "../../headers/utils.h"
+#include "../../include/utils.h"
 
 typedef enum {
   CONST,
@@ -49,6 +49,7 @@ typedef enum {
   ASSIGN,
   INC,
   DEC,
+  RANGE,
   POWER,
   LOGICAL_AND,
   LOGICAL_OR,
@@ -61,11 +62,21 @@ typedef enum {
   BITWISE_RSHL,
 } PARSED_SYMBOLS;
 
-typedef struct AST_object {
+typedef struct AST_unit {
   union {
-    int placeholder;
+    double numeric;
+    char *string;
   };
-  struct AST_object *next, *prev;
-} AST_object;
+  union {
+    PARSED_TYPES type;
+    PARSED_KEYWORD keyword;
+    PARSED_SYMBOLS symbol;
+  };
+} AST_unit;
 
-AST_object *parser(TokenList *);
+typedef struct AST_Tree {
+  AST_unit unit;
+  struct AST_Tree *next, *prev;
+} AST_Tree;
+
+AST_Tree *parser(TokenList *);

@@ -7,5 +7,6 @@ Todo:
  - constants: 12
  - symbols: “(”, “)” and “;”
  - operators “=” et “+”
- - operator “==”
- - operator “++”
+ - operator cmp “==”
+ - operator increment “++”
+ - operator range “:=” 

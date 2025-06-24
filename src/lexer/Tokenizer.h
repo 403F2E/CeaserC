@@ -2,7 +2,6 @@
 #pragma once
 
 #include <ctype.h>
-#include <stddef.h>
 
 // List of Keyword of the language
 typedef enum {
@@ -24,5 +23,5 @@ typedef struct {
 
 typedef struct TokenList {
   Token token;
-  struct TokenList *prev, *tail;
+  struct TokenList *tail;
 } TokenList;
