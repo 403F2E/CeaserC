@@ -15,6 +15,7 @@ typedef enum {
   BOOL,
   KEY,
   CIPHER,
+  IDENTIFY,
 } PARSED_TYPES;
 
 typedef enum {
