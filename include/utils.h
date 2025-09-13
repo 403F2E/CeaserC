@@ -8,8 +8,8 @@
 #include <string.h>
 
 #include "fileHandler.h"
+#include "lexer/tokenizer.h"
 
-#include "../src/lexer/Tokenizer.h"
-#include "../src/lexer/lexer.h"
+#include "lexer/lexer.h"
 
-#include "../src/parser/parser.h"
+#include "parser/parser.h"

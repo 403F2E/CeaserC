@@ -1,5 +1,5 @@
 
-#include "../include/utils.h" // IWYU pragma: keep
+#include "../include/parser/parser.h"
 #include <stdio.h>
 
 void printTokenList(TokenList *tokenlist) {
@@ -44,7 +44,7 @@ int main(const int argc, const char *argv[]) {
   printf("\n******\n");
   printTokenList(tokenList);
 
-  AST_object *ast = parser(tokenList); // IWYU pragma: keep
+  AST_Tree *ast = parser(tokenList);
 
   fclose(file);
   free(tokenList);

@@ -1,5 +1,5 @@
 
-#include "../include/utils.h" // IWYU pragma: keep
+#include "../include/fileHandler.h"
 
 FILE *openFile(const char *file) {
   FILE *filestream = fopen(file, "r");

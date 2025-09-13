@@ -8,7 +8,7 @@ BUILD_DIR = ./build
 
 SRCS = $(wildcard $(SRC_DIR)/*.c) $(wildcard $(SRC_DIR)/*/*c)
 
-TEST_FILE = ./app.rzc
+TEST_FILE = ./example/app.rzc
 
 EXEC = czr
 

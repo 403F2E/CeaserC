@@ -1,6 +1,6 @@
 
-#include "lexer.h"
-#include "Tokenizer.h"
+#include "../../include/lexer/lexer.h"
+#include "../../include/lexer/tokenizer.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

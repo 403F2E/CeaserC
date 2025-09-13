@@ -1,6 +1,6 @@
 
 
 #pragma once
-#include "../../include/utils.h"
+#include "../utils.h"
 
 TokenList *lexer(FILE *file);
