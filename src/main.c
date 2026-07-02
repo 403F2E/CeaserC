@@ -1,31 +1,7 @@
 
-#include "../include/parser/parser.h"
+#include "../include/utils.h"
+
 #include <stdio.h>
-
-void printTokenList(TokenList *tokenlist) {
-  TokenList *current = tokenlist->tail;
-
-  while (current != tokenlist) {
-    printf("****\n");
-    printf("The token value : %s\n", current->token.value);
-    printf("The token type : %d\n", current->token.type);
-    printf("****\n");
-    current = current->tail;
-  }
-
-  return;
-}
-
-int extVerifier(const char *filename, const char *extension) {
-  size_t len_filename = strlen(filename);
-  size_t len_ext = strlen(extension);
-
-  if (len_filename >= len_ext &&
-      !strcmp(filename + len_filename - len_ext, extension)) {
-    return 0;
-  }
-  return 1;
-}
 
 int main(const int argc, const char *argv[]) {
   if (argc < 2) {
@@ -33,21 +9,30 @@ int main(const int argc, const char *argv[]) {
     return 1;
   }
 
-  if (extVerifier(argv[1], ".rzc")) {
+  if (extension_verifier(argv[1], ".rzc")) {
     printf("Error: Unsupported file extension. Please use .kno\n");
     return 1;
   }
 
-  FILE *file = openFile(argv[1]);
+  Lexer lexer = {
+      .filename = argv[1],
+      .source = read_file(argv[1]),
+      .start = lexer.source,
+      .current = lexer.source,
+      .column = 1,
+      .line = 1,
+  };
 
-  TokenList *tokenList = lexer(file);
+  TokenList *tokenList = lexer_scan(lexer);
   printf("\n******\n");
   printTokenList(tokenList);
 
-  AST_Tree *ast = parser(tokenList);
+  // AST_Tree *ast = parser(tokenList);
 
-  fclose(file);
+  tokenList = NULL;
+  // ast = NULL;
+
   free(tokenList);
-  free(ast);
+  // free(ast);
   return 0;
 }

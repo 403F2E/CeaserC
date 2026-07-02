@@ -1,6 +1,12 @@
 let x: float = 12.34;
 let y: int = 46;
 
+struct Phantom {
+  bit nothing;
+}
+
 for i in 1:=10 {
   print("hello");
 }
+
+

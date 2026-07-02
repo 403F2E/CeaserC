@@ -1,7 +1,9 @@
 
 
-#pragma once
-#include "../utils.h"
+#ifndef _PARSER_H
+#define _PARSER_H
+
+#include "../core/token_list.h"
 
 typedef enum {
   CONST,
@@ -81,3 +83,5 @@ typedef struct AST_Tree {
 } AST_Tree;
 
 AST_Tree *parser(TokenList *);
+
+#endif
