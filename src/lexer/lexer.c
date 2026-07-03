@@ -4,76 +4,47 @@
 
 #include <stdbool.h>
 #include <stddef.h>
+#include <stdio.h>
 #include <string.h>
 
-typedef struct {
-  const char *keyword;
-  size_t length;
-} Keyword;
+static struct {
+  const char *name;
+  enum TOKENTYPE type;
+} keywords[] = {
+#define X(type, name) {name, type},
+    KEYWORD_LIST
+#undef X
+};
 
-static const Keyword keywords[] = {{"bit", 3},          {"bits", 4},
-                                   {"byte", 4},         {"word", 4},
-                                   {"poly", 4},         {"lattice", 7},
-                                   {"field", 5},        {"group", 5},
-                                   {"type", 4},         {"struct", 6},
-                                   {"qubit", 5},        {"qureg", 5},
-                                   {"qcircuit", 8},     {"qgate", 5},
-                                   {"measure", 7},      {"superpose", 9},
-                                   {"if", 2},           {"else", 4},
-                                   {"elif", 4},         {"try", 3},
-                                   {"catch", 5},        {"finally", 7},
-                                   {"match", 5},        {"case", 4},
-                                   {"for", 3},          {"while", 5},
-                                   {"dowhile", 7},      {"apply", 5},
-                                   {"transform", 9},    {"permute", 7},
-                                   {"round", 5},        {"with", 4},
-                                   {"assert", 6},       {"assume", 6},
-                                   {"return", 6},       {"yield", 5},
-                                   {"add_mod", 7},      {"mul_mod", 7},
-                                   {"exp_mod", 7},      {"inv_mod", 7},
-                                   {"sample", 6},       {"compress", 8},
-                                   {"decompress", 10},  {"hash", 4},
-                                   {"@verifiable", 11}, {"@constant_time", 14},
-                                   {"@pure", 5},        {"@leak_free", 10},
-                                   {"prove", 5},        {"invariant", 9},
-                                   {"requires", 8},     {"secret", 6},
-                                   {"public", 6},       {"zeroize", 7},
-                                   {"constant", 8},     {"volatile", 8},
-                                   {"aligned", 7},      {"namespace", 9},
-                                   {"import", 6},       {"export", 6},
-                                   {"use", 3},          {"as", 2},
-                                   {"opaque", 6},       {"true", 4},
-                                   {"false", 5},        {"infinity", 8}};
-
-static TOKENTYPE lookup_keyword(Lexer *lexer) {
+static enum TOKENTYPE lookup_keyword(struct Lexer *lexer) {
   size_t length = lexer->current - lexer->start;
 
   size_t count = sizeof(keywords) / sizeof(keywords[0]);
 
   for (size_t i = 0; i < count; i++) {
-    if (keywords[i].length != length)
+    if (strlen(keywords[i].name) != length)
       continue;
 
-    if (memcmp(lexer->start, keywords[i].keyword, length) == 0) {
-      return TOKEN_KEYWORD;
+    if (memcmp(lexer->start, keywords[i].name, length) == 0) {
+      return keywords[i].type;
     }
   }
 
-  return TOKEN_IDENTIFIER;
+  return TOKEN_IDEN;
 }
 
 // Checking the start of the keyword/identifier
 static bool is_identifier_start(char c) {
-  return c == '_' || c == '@' || isalpha((unsigned char)c);
+  return c == '_' || isalpha((unsigned char)c) || c == '@';
 }
 
 // Checking the current char if is alphanum
 static bool is_identifier_char(char c) {
-  return isalnum((unsigned char)c) || c == '_';
+  return isalnum((unsigned char)c) || c == '_' || c == '@';
 }
 
 // Consume spaces, tabs, newlines, comments
-static void skip_whitespace(Lexer *lexer) {
+static void skip_whitespace(struct Lexer *lexer) {
   while (*lexer->current != '\0') {
     switch (*lexer->current) {
     case ' ':
@@ -95,7 +66,8 @@ static void skip_whitespace(Lexer *lexer) {
   }
 }
 
-static Token scan_identifier(Lexer *lexer) {
+static struct Token scan_identifier(struct Lexer *lexer) {
+
   while (is_identifier_char(*lexer->current)) {
     lexer->current++;
     lexer->column++;
@@ -105,8 +77,8 @@ static Token scan_identifier(Lexer *lexer) {
 }
 
 // function determine the whole number
-static Token scan_number(Lexer *lexer) {
-  while (isdigit(*lexer->current)) {
+static struct Token scan_number(struct Lexer *lexer) {
+  while (isdigit(*lexer->current) || *lexer->current == '.') {
     lexer->current++;
     lexer->column++;
   }
@@ -116,32 +88,38 @@ static Token scan_number(Lexer *lexer) {
 
 /*** The process to identify symbols ***/
 // checks is included in the standard symbols
-static bool issymbol(char cursor) {
-  return (cursor == ':' || cursor == ';' || cursor == '=' || cursor == '(' ||
-          cursor == ')' || cursor == '{' ||
-          cursor == '}'); // symbols currently identified
-}
-// checks if included in the standard escape sequence list
-static bool isescape_sequence(char cursor) {
-  const char escapeseq[] = "\"\'\v\b\r\\";
-  return strchr(escapeseq, cursor) != NULL;
-}
-// tokenize the symbol
-static Token scan_operator(Lexer *lexer) {
-  char current = *lexer->current;
+static struct {
+  const char *name;
+  enum TOKENTYPE type;
+} symbols[] = {
+#define X(type, name) {name, type},
+    SYMBOL_LIST
+#undef X
+};
 
+static enum TOKENTYPE lookup_symbol(struct Lexer *lexer) {
+  size_t length = lexer->current - lexer->start;
+
+  size_t count = sizeof(symbols) / sizeof(symbols[0]);
+
+  for (size_t i = 0; i < count; i++) {
+    if (memcmp(lexer->start, symbols[i].name, length) == 0) {
+      return keywords[i].type;
+    }
+  }
+
+  return TOKEN_UNKNOWN;
+}
+
+// tokenize the symbol
+static struct Token scan_operator(struct Lexer *lexer) {
   lexer->current++;
   lexer->column++;
 
-  if (issymbol(current))
-    return tokenize(lexer, TOKEN_SYMBOL);
-  else if (isescape_sequence(*lexer->current))
-    return tokenize(lexer, TOKEN_ESCSEQ);
-  else
-    return tokenize(lexer, TOKEN_UNKNOWN);
+  return tokenize(lexer, lookup_symbol(lexer));
 }
 
-static Token scan_string(Lexer *lexer) {
+static struct Token scan_string(struct Lexer *lexer) {
   lexer->current++;
   lexer->column++;
 
@@ -161,8 +139,8 @@ static Token scan_string(Lexer *lexer) {
 /*
  * lexer function
  */
-TokenList *lexer_scan(Lexer lexer) {
-  TokenList *tokens = create_token_list();
+struct TokenList *lexer_scan(struct Lexer lexer) {
+  struct TokenList *tokens = create_token_list();
 
   if (!tokens)
     return NULL;
@@ -172,7 +150,7 @@ TokenList *lexer_scan(Lexer lexer) {
 
     lexer.start = lexer.current;
 
-    Token token;
+    struct Token token;
 
     if (is_identifier_start(*lexer.current))
       token = scan_identifier(&lexer);

@@ -5,18 +5,20 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-typedef struct {
-  Token *token;
+struct TokenList {
+  struct Token *token;
   size_t count;
   size_t capacity;
-} TokenList;
+};
 
-TokenList *create_token_list(void);
+struct TokenList *create_token_list(void);
 
-bool push_token_list(TokenList *list, Token token);
+bool push_token_list(struct TokenList *list, struct Token token);
 
-void destroy_token_list(TokenList *list);
+void destroy_token_list(struct TokenList *list);
 
-void printTokenList(TokenList *tokenlist);
+char *token_type_str(enum TOKENTYPE);
+
+void printTokenList(struct TokenList *tokenlist);
 
 #endif

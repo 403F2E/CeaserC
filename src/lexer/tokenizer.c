@@ -2,14 +2,17 @@
 #include "../../include/lexer/tokenizer.h"
 #include "../../include/core/token_list.h"
 
+#define TOSTR(type) #type;
+
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define INITIAL_TOKEN_CAPACITY 64
 
 // Create Token instance
-Token tokenize(Lexer *lexer, TOKENTYPE type) {
-  Token token;
+struct Token tokenize(struct Lexer *lexer, enum TOKENTYPE type) {
+  struct Token token;
 
   token.type = type;
   token.lexeme = lexer->start;
@@ -21,13 +24,13 @@ Token tokenize(Lexer *lexer, TOKENTYPE type) {
 }
 
 // Create Token List instance
-TokenList *create_token_list() {
-  TokenList *list = malloc(sizeof(TokenList));
+struct TokenList *create_token_list() {
+  struct TokenList *list = malloc(sizeof(struct TokenList));
 
   if (!list)
     return NULL;
 
-  list->token = malloc(sizeof(Token) * INITIAL_TOKEN_CAPACITY);
+  list->token = malloc(sizeof(struct Token) * INITIAL_TOKEN_CAPACITY);
 
   if (!list->token) {
     free(list);
@@ -41,10 +44,11 @@ TokenList *create_token_list() {
 }
 
 // Double the capacity and realloc the list
-static bool grow_token_list(TokenList *list) {
+static bool grow_token_list(struct TokenList *list) {
   size_t new_capacity = list->capacity * 2;
 
-  Token *new_data = realloc(list->token, sizeof(Token) * new_capacity);
+  struct Token *new_data =
+      realloc(list->token, sizeof(struct Token) * new_capacity);
 
   if (!new_data)
     return 0;
@@ -56,7 +60,7 @@ static bool grow_token_list(TokenList *list) {
 }
 
 // Add token to the end of the token list
-bool push_token_list(TokenList *list, Token token) {
+bool push_token_list(struct TokenList *list, struct Token token) {
   if (!list)
     return 0;
 
@@ -72,7 +76,7 @@ bool push_token_list(TokenList *list, Token token) {
 }
 
 // Delete the TokenList
-void token_list_destroy(TokenList *list) {
+void token_list_destroy(struct TokenList *list) {
   if (!list)
     return;
 
@@ -80,17 +84,32 @@ void token_list_destroy(TokenList *list) {
   free(list);
 }
 
-Token *token_at(TokenList *list, size_t index) {
+struct Token *token_at(struct TokenList *list, size_t index) {
   if (index >= list->count)
     return NULL;
 
   return &list->token[index];
 }
 
+char *token_type_to_str(enum TOKENTYPE type) {
+  switch (type) {
+#define X(type, name)                                                          \
+  case type:                                                                   \
+    return #type;
+    SYMBOL_LIST
+    KEYWORD_LIST
+#undef X
+  default:
+    return "TOKEN_UNKNOWN";
+  }
+}
+
 // Pretty formatting gathered tokens
-void printTokenList(TokenList *tokenlist) {
+void printTokenList(struct TokenList *tokenlist) {
+  char *type = (char *)malloc(17);
   for (int i = 0; i < tokenlist->count; i++) {
-    printf("[TYPE:%d] [LEXEME:%.*s]\n", tokenlist->token[i].type,
+    type = token_type_to_str(tokenlist->token[i].type);
+    printf("[TYPE: %s] [LEXEME: %.*s]\n\n", type,
            (int)tokenlist->token[i].length, tokenlist->token[i].lexeme);
   }
   return;

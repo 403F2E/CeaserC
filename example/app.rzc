@@ -1,6 +1,7 @@
 let x: float = 12.34;
 let y: int = 46;
 
+@pure
 struct Phantom {
   bit nothing;
 }

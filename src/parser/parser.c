@@ -14,7 +14,7 @@ AST_Tree *createASTObject() {
   return ast;
 }
 
-AST_unit parse_indent(Token token) {
+AST_unit parse_indent(struct Token token) {
   AST_unit unit = {0};
   // if (!strcmp(token.lexeme, "const")) {
   //   unit.string = token.lexeme;
@@ -56,8 +56,8 @@ AST_unit parse_indent(Token token) {
   return unit;
 }
 
-AST_Tree *fill_AST_Tree(TokenList *tokenlist) {
-  TokenList *tokenlst = tokenlist;
+AST_Tree *fill_AST_Tree(struct TokenList *tokenlist) {
+  struct TokenList *tokenlst = tokenlist;
   AST_Tree *ast_tree = createASTObject();
   for (int i = 0; i < tokenlist->count; i++) {
     if (!tokenlst[i].token->type) {
@@ -77,8 +77,8 @@ AST_Tree *fill_AST_Tree(TokenList *tokenlist) {
   return ast_tree;
 }
 
-AST_Tree *parser(TokenList *tokenlist) {
-  TokenList *headtoken = tokenlist;
+AST_Tree *parser(struct TokenList *tokenlist) {
+  struct TokenList *headtoken = tokenlist;
 
   AST_Tree *ast_tree = fill_AST_Tree(tokenlist);
 

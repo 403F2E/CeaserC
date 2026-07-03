@@ -14,7 +14,7 @@ int main(const int argc, const char *argv[]) {
     return 1;
   }
 
-  Lexer lexer = {
+  struct Lexer lexer = {
       .filename = argv[1],
       .source = read_file(argv[1]),
       .start = lexer.source,
@@ -23,7 +23,7 @@ int main(const int argc, const char *argv[]) {
       .line = 1,
   };
 
-  TokenList *tokenList = lexer_scan(lexer);
+  struct TokenList *tokenList = lexer_scan(lexer);
   printf("\n******\n");
   printTokenList(tokenList);
 

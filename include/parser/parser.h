@@ -82,6 +82,6 @@ typedef struct AST_Tree {
   struct AST_Tree *next, *prev;
 } AST_Tree;
 
-AST_Tree *parser(TokenList *);
+AST_Tree *parser(struct TokenList *);
 
 #endif

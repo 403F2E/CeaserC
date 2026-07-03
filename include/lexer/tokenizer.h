@@ -5,17 +5,17 @@
 #include "../core/token_list.h"
 #include <stdio.h>
 
-typedef struct {
+struct Lexer {
   const char *filename;
   const char *source;
   const char *current;
   const char *start;
   size_t line;
   size_t column;
-} Lexer;
+};
 
-Token tokenize(Lexer *lexer, TOKENTYPE type);
+struct Token tokenize(struct Lexer *lexer, enum TOKENTYPE type);
 
-TokenList *lexer_scan(Lexer lexer);
+struct TokenList *lexer_scan(struct Lexer lexer);
 
 #endif
