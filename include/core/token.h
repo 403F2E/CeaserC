@@ -11,6 +11,7 @@
   X(TOKEN_IDEN, "IDENT")                                                       \
   X(TOKEN_STRING, "STRING")                                                    \
   X(TOKEN_NUMERIC, "NUMERIC")                                                  \
+  X(TOKEN_SOF, "SOF")                                                          \
   X(TOKEN_EOF, "EOF")                                                          \
   X(TOKEN_UNKNOWN, "UNKNOWN")
 
@@ -104,11 +105,7 @@
 // List of Keyword of the language
 enum TOKENTYPE {
 #define X(type, name) type,
-  BASE_LIST
-
-      SYMBOL_LIST
-
-          KEYWORD_LIST
+  BASE_LIST SYMBOL_LIST KEYWORD_LIST
 #undef X
 };
 

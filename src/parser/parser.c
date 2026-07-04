@@ -1,11 +1,12 @@
 
 #include "../../include/parser/parser.h"
+#include "../../include/core/core.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 AST_Tree *createASTObject() {
-  AST_Tree *ast = (AST_Tree *)malloc(sizeof(AST_Tree));
+  AST_Tree *ast = (AST_Tree *)_malloc(sizeof(AST_Tree));
   if (ast == NULL) {
     perror("Error allocating memory for AST object");
     exit(EXIT_FAILURE);

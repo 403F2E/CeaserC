@@ -104,7 +104,7 @@ static enum TOKENTYPE lookup_symbol(struct Lexer *lexer) {
 
   for (size_t i = 0; i < count; i++) {
     if (memcmp(lexer->start, symbols[i].name, length) == 0) {
-      return keywords[i].type;
+      return symbols[i].type;
     }
   }
 

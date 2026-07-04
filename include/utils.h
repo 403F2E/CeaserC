@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "core/core.h"
+
 #include "file_handler.h"
 #include "lexer/tokenizer.h"
 

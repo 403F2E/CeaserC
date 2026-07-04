@@ -1,5 +1,6 @@
 
 #include "../include/file_handler.h"
+#include "../include/core/core.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,7 +38,7 @@ char *read_file(const char *file_path) {
     return NULL;
   }
 
-  char *source = (char *)malloc((file_size + 1) * sizeof(char));
+  char *source = (char *)_malloc((file_size + 1) * sizeof(char));
   if (source == NULL) {
     fclose(file);
     return NULL;
