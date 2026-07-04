@@ -7,21 +7,21 @@
 #include <string.h>
 
 void *_malloc(size_t size) {
-  void *buf = malloc(size);
-  if (!buf) {
+  void *buffer = malloc(size);
+  if (buffer == NULL) {
     fprintf(stderr, "[Error] failed to allocate %lu bytes.: %s\n", size,
             strerror(errno));
     return NULL;
   }
-  return buf;
+  return buffer;
 }
 
 void *_realloc(void *ptr, size_t size) {
-  void *buf = realloc(ptr, size);
-  if (!buf) {
+  void *buffer = realloc(ptr, size);
+  if (buffer == NULL) {
     fprintf(stderr, "[Error] failed to reallocate %lu bytes.: %s\n", size,
             strerror(errno));
     return NULL;
   }
-  return buf;
+  return buffer;
 }

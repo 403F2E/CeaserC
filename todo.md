@@ -12,10 +12,34 @@ Todo:
 - operator increment “++”
 - operator range “:=”
 
-advance(lexer);
-peek(lexer);
-peek_next(lexer);
-match(lexer);
-skip_whitespace(lexer);
-scan_identifier(lexer);
-scan_number(lexer);
+Source File [x]
+│
+▼
+Lexer [x]
+│
+▼
+Token List [x]
+│
+▼
+Parser [ ]
+│
+▼
+AST [ ]
+│
+▼
+Type Checker [ ]
+│
+▼
+Verifier [ ]
+│
+▼
+Optimizer [ ]
+│
+▼
+IR [ ]
+│
+▼
+LLVM [ ]
+│
+▼
+Machine Code [ ]
