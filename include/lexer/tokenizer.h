@@ -2,8 +2,11 @@
 #ifndef _TOKENIZER_H
 #define _TOKENIZER_H
 
-#include "../core/token_list.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "../core/token_list.h"
 
 struct Lexer {
   const char *filename;

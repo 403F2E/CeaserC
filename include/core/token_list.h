@@ -13,12 +13,12 @@ struct TokenList {
 
 struct TokenList *create_token_list(void);
 
-bool push_token_list(struct TokenList *list, struct Token token);
+bool push_token_list(struct TokenList *, struct Token);
 
-void destroy_token_list(struct TokenList *list);
+void destroy_token_list(struct TokenList *);
 
 char *token_type_str(enum TOKENTYPE);
 
-void printTokenList(struct TokenList *tokenlist);
+void printTokenList(struct TokenList *);
 
 #endif

@@ -111,7 +111,7 @@
   X(TOKEN_CONSTANT, "const")                                                   \
   X(TOKEN_VOLATILE, "volatile")                                                \
   X(TOKEN_ALIGNED, "aligned")                                                  \
-  X(TOKEN_NAMESPACE, "namespace")                                              \
+  X(TOKEN_MODUL, "mod")                                                        \
   X(TOKEN_IMPORT, "import")                                                    \
   X(TOKEN_EXPORT, "export")                                                    \
   X(TOKEN_OPAQUE, "opaque")                                                    \

@@ -5,10 +5,6 @@
 
 #define TOSTR(type) #type;
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #define INITIAL_TOKEN_CAPACITY 64
 
 // Create Token instance

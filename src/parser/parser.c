@@ -1,7 +1,14 @@
 
 #include "../../include/parser/parser.h"
 #include "../../include/core/core.h"
-#include <stdio.h>
+
+// static struct Token *peek(struct Parser *);
+// static struct Token *previous(struct Parser *);
+// static struct Token *advance(struct Parser *);
+// static bool match(struct Parser *, enum TOKENTYPE);
+// static struct Token *consume(struct Parser *, enum TOKENTYPE,
+//                              const char *message);
+// static bool is_at_end(struct Parser *);
 
 struct ASTNode *parser(struct TokenList *tokenlist) {
   struct TokenList *token_list = tokenlist;

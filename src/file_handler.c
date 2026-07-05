@@ -2,10 +2,6 @@
 #include "../include/file_handler.h"
 #include "../include/core/core.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 static FILE *open_file(const char *file) {
   FILE *filestream = fopen(file, "r");
 

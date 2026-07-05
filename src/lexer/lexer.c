@@ -2,11 +2,6 @@
 #include "../../include/core/token_list.h"
 #include "../../include/lexer/tokenizer.h"
 
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <string.h>
-
 static struct {
   const char *name;
   enum TOKENTYPE type;

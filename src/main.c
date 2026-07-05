@@ -1,8 +1,6 @@
 
 #include "../include/utils.h"
 
-#include <stdio.h>
-
 int main(const int argc, const char *argv[]) {
   if (argc < 2) {
     printf("Usage: %s <FILE PATH to Compile> ...\n", argv[0]);

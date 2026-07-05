@@ -124,7 +124,7 @@
 
 ## Module System Keywords
 
-- [ ] the namespace keyword : **namespace**
+- [ ] the mod keyword : **mod**
 - [ ] the import keyword : **import**
 - [ ] the export keyword : **export**
 - [ ] the qualified use keyword : **use**
@@ -174,6 +174,6 @@
 
 **Security:** `secret` `public` `zeroize` `constant` `volatile` `aligned`
 
-**Modules:** `namespace` `import` `export` `use` `as` `opaque`
+**Modules:** `mod` `import` `export` `use` `as` `opaque`
 
 **Literals:** `true` `false` `infinity`
