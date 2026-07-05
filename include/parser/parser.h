@@ -6,7 +6,6 @@
 
 enum ASTKIND {
   AST_PROGRAM,
-  CONST,
   AST_FUNCTION,
   AST_BLOCK,
   AST_IF,

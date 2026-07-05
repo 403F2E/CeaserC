@@ -101,7 +101,7 @@
   X(TOKEN_SECRET, "secret")                                                    \
   X(TOKEN_PUBLIC, "pub")                                                       \
   X(TOKEN_ZEROIZE, "zeroize")                                                  \
-  X(TOKEN_CONSTANT, "constant")                                                \
+  X(TOKEN_CONSTANT, "const")                                                   \
   X(TOKEN_VOLATILE, "volatile")                                                \
   X(TOKEN_ALIGNED, "aligned")                                                  \
   X(TOKEN_NAMESPACE, "namespace")                                              \
