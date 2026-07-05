@@ -11,11 +11,10 @@
   X(TOKEN_IDEN, "IDENT")                                                       \
   X(TOKEN_STRING, "STRING")                                                    \
   X(TOKEN_NUMERIC, "NUMERIC")                                                  \
-  X(TOKEN_SOF, "SOF")                                                          \
-  X(TOKEN_EOF, "EOF")                                                          \
   X(TOKEN_UNKNOWN, "UNKNOWN")
 
 #define SYMBOL_LIST                                                            \
+  X(TOKEN_EOF, "\0")                                                           \
   X(TOKEN_LPAREN, "(")                                                         \
   X(TOKEN_RPAREN, ")")                                                         \
   X(TOKEN_LCBRACE, "{")                                                        \
@@ -27,7 +26,14 @@
   X(TOKEN_PLUS, "+")                                                           \
   X(TOKEN_MINUS, "-")                                                          \
   X(TOKEN_DIV, "/")                                                            \
-  X(TOKEN_MUL, "*")
+  X(TOKEN_MUL, "*")                                                            \
+  X(TOKEN_MOD, "%")                                                            \
+  X(TOKEN_EQ, "==")                                                            \
+  X(TOKEN_LT, "<")                                                             \
+  X(TOKEN_GT, ">")                                                             \
+  X(TOKEN_LTE, "<=")                                                           \
+  X(TOKEN_GTE, ">=")                                                           \
+  X(TOKEN_RANGE, ":=")
 
 #define KEYWORD_LIST                                                           \
   X(TOKEN_NONE, "None")                                                        \
@@ -49,6 +55,8 @@
   X(TOKEN_MATCH, "match")                                                      \
   X(TOKEN_CASE, "case")                                                        \
   X(TOKEN_FINALLY, "finally")                                                  \
+  X(TOKEN_AND, "and")                                                          \
+  X(TOKEN_OR, "or")                                                            \
   X(TOKEN_FOR, "for")                                                          \
   X(TOKEN_IN, "in")                                                            \
   X(TOKEN_WHILE, "while")                                                      \
@@ -91,7 +99,7 @@
   X(TOKEN_INVARIANT, "invariant")                                              \
   X(TOKEN_REQUIRES, "requires")                                                \
   X(TOKEN_SECRET, "secret")                                                    \
-  X(TOKEN_PUBLIC, "public")                                                    \
+  X(TOKEN_PUBLIC, "pub")                                                       \
   X(TOKEN_ZEROIZE, "zeroize")                                                  \
   X(TOKEN_CONSTANT, "constant")                                                \
   X(TOKEN_VOLATILE, "volatile")                                                \
@@ -100,7 +108,7 @@
   X(TOKEN_IMPORT, "import")                                                    \
   X(TOKEN_EXPORT, "export")                                                    \
   X(TOKEN_OPAQUE, "opaque")                                                    \
-  X(TOKEN_INFINITY, "infinity")
+  X(TOKEN_INFINITY, "INF")
 
 // List of Keyword of the language
 enum TOKENTYPE {

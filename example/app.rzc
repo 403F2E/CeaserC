@@ -1,5 +1,6 @@
 let x: float = 12.34;
 let y: int = 46;
+let z: int = 1_000_000;
 
 @pure
 struct Phantom {
@@ -7,7 +8,9 @@ struct Phantom {
 }
 
 for i in 1:=10 {
-  print("hello");
+  let i: int = 8;
+  if i <= 9 and i >= 6 {
+    print("hello");
+  }
 }
-
 

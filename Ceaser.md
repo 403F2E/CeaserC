@@ -7,6 +7,8 @@
 - [ ] the multiply operator : **\***
 - [ ] the division operator : **/**
 - [ ] the modulo operator : **%**
+- [ ] the post-increment operator : **++{}**
+- [ ] the later-increment operator : **{}++**
 
 ## Bitwise operators
 
@@ -114,7 +116,7 @@
 ## Memory & Side-Channel Protection Keywords
 
 - [ ] the secret data keyword : **secret**
-- [ ] the public data keyword : **public**
+- [ ] the public data keyword : **pub**
 - [ ] the secure zeroize keyword : **zeroize**
 - [ ] the compile-time constant keyword : **constant**
 - [ ] the volatile memory keyword : **volatile**
@@ -136,7 +138,7 @@
 - [ ] the hexadecimal literal prefix : **0x**
 - [ ] the binary literal prefix : **0b**
 - [ ] the sized bits literal : **bits**
-- [ ] the point at infinity literal : **infinity**
+- [ ] the point at infinity literal : **INF**
 
 ## Complete Operator Precedence (Highest to Lowest)
 
@@ -146,10 +148,10 @@
 | 2          | `<<` `>>` `<<<` `>>>`        | Left          |
 | 3          | `&`                          | Left          |
 | 4          | `^`                          | Left          |
-| 5          | `                            | `             | Left |
+| 5          | \`                           | \`            | Left |
 | 6          | `==` `!=` `<` `>` `<=` `>=`  | Left          |
-| 7          | `&&` (logical and)           | Left          |
-| 8          | `\|\|` (logical or)          | Left          |
+| 7          | `and` (logical and)          | Left          |
+| 8          | `or` (logical or)            | Left          |
 | 9          | `=` `+=` `-=` `*=` `/=` `%=` | Right         |
 
 ## Complete Keyword Summary (85 total)

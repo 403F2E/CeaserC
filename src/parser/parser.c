@@ -5,8 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-AST_Tree *createASTObject() {
-  AST_Tree *ast = (AST_Tree *)_malloc(sizeof(AST_Tree));
+struct AST_Tree *createASTObject() {
+  struct AST_Tree *ast = (struct AST_Tree *)_malloc(sizeof(struct AST_Tree));
   if (ast == NULL) {
     perror("Error allocating memory for AST object");
     exit(EXIT_FAILURE);
@@ -15,8 +15,8 @@ AST_Tree *createASTObject() {
   return ast;
 }
 
-AST_unit parse_indent(struct Token token) {
-  AST_unit unit = {0};
+struct AST_unit parse_indent(struct Token token) {
+  struct AST_unit unit = {0};
   // if (!strcmp(token.lexeme, "const")) {
   //   unit.string = token.lexeme;
   //   unit.type = CONST;
@@ -57,9 +57,9 @@ AST_unit parse_indent(struct Token token) {
   return unit;
 }
 
-AST_Tree *fill_AST_Tree(struct TokenList *tokenlist) {
+struct AST_Tree *fill_AST_Tree(struct TokenList *tokenlist) {
   struct TokenList *tokenlst = tokenlist;
-  AST_Tree *ast_tree = createASTObject();
+  struct AST_Tree *ast_tree = createASTObject();
   for (int i = 0; i < tokenlist->count; i++) {
     if (!tokenlst[i].token->type) {
       printf("todo!");
@@ -78,10 +78,10 @@ AST_Tree *fill_AST_Tree(struct TokenList *tokenlist) {
   return ast_tree;
 }
 
-AST_Tree *parser(struct TokenList *tokenlist) {
+struct AST_Tree *parser(struct TokenList *tokenlist) {
   struct TokenList *headtoken = tokenlist;
 
-  AST_Tree *ast_tree = fill_AST_Tree(tokenlist);
+  struct AST_Tree *ast_tree = fill_AST_Tree(tokenlist);
 
   printf("%s : %d\n", headtoken->token->lexeme, headtoken->token->type);
   return ast_tree;

@@ -1,87 +1,41 @@
 
-
 #ifndef _PARSER_H
 #define _PARSER_H
 
 #include "../core/token_list.h"
 
-typedef enum {
+enum ASTKIND {
+  AST_PROGRAM,
   CONST,
-  INT,
-  BIN,
-  OCT,
-  HEX,
-  FLOAT,
-  DOUBLE,
-  CHAR,
-  BOOL,
-  KEY,
-  CIPHER,
-  IDENTIFY,
-} PARSED_TYPES;
+  AST_FUNCTION,
+  AST_BLOCK,
+  AST_IF,
+  AST_FOR,
+  AST_WHILE,
+  AST_RETURN,
+  AST_ASSIGN,
+  AST_BINARY,
+  AST_UNARY,
+  AST_CALL,
+  AST_IDENTIFIER,
+  AST_LITERAL,
+  AST_STRUCT,
+  AST_MATCH
+};
 
-typedef enum {
-  IDENT,
-  DEF,
-  CLASS,
-  ALGO,
-  RETURN,
-  IF,
-  ELSE,
-  FOR,
-  WHILE,
-  DO,
-  BREAK,
-  CONTINUE,
-  MATCH,
-  DEFAULT,
-} PARSED_KEYWORD;
-
-typedef enum {
-  LT,
-  LE,
-  EQ,
-  NE,
-  GE,
-  GT,
-  ADD,
-  SUB,
-  MUL,
-  DIV,
-  MOD,
-  ASSIGN,
-  INC,
-  DEC,
-  RANGE,
-  POWER,
-  LOGICAL_AND,
-  LOGICAL_OR,
-  LOGICAL_NOT,
-  BITWISE_AND,
-  BITWISE_OR,
-  BITWISE_XOR,
-  BITWISE_NOT,
-  BITWISE_SHL,
-  BITWISE_RSHL,
-} PARSED_SYMBOLS;
-
-typedef struct AST_unit {
+struct AST_unit {
+  enum ASTKIND type;
   union {
     double numeric;
     char *string;
   };
-  union {
-    PARSED_TYPES type;
-    PARSED_KEYWORD keyword;
-    PARSED_SYMBOLS symbol;
-  };
-} AST_unit;
+};
 
-typedef struct AST_Tree {
-  AST_unit unit;
+struct AST_Tree {
+  struct AST_unit unit;
   struct AST_Tree *next, *prev;
-} AST_Tree;
+};
 
-AST_Tree *parser(struct TokenList *);
+struct AST_Tree *parser(struct TokenList *);
 
 #endif

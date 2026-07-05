@@ -40,7 +40,7 @@ static bool is_identifier_start(char c) {
 
 // Checking the current char if is alphanum
 static bool is_identifier_char(char c) {
-  return isalnum((unsigned char)c) || c == '_' || c == '@';
+  return isalnum((unsigned char)c) || c == '_';
 }
 
 // Consume spaces, tabs, newlines, comments
@@ -68,20 +68,21 @@ static void skip_whitespace(struct Lexer *lexer) {
 
 static struct Token scan_identifier(struct Lexer *lexer) {
 
-  while (is_identifier_char(*lexer->current)) {
+  do {
     lexer->current++;
     lexer->column++;
-  }
+  } while (is_identifier_char(*lexer->current));
 
   return tokenize(lexer, lookup_keyword(lexer));
 }
 
 // function determine the whole number
-static struct Token scan_number(struct Lexer *lexer) {
-  while (isdigit(*lexer->current) || *lexer->current == '.') {
+static struct Token scan_numeric(struct Lexer *lexer) {
+  do {
     lexer->current++;
     lexer->column++;
-  }
+  } while (isdigit(*lexer->current) || *lexer->current == '.' ||
+           *lexer->current == '_');
 
   return tokenize(lexer, TOKEN_NUMERIC);
 }
@@ -113,8 +114,10 @@ static enum TOKENTYPE lookup_symbol(struct Lexer *lexer) {
 
 // tokenize the symbol
 static struct Token scan_operator(struct Lexer *lexer) {
-  lexer->current++;
-  lexer->column++;
+  do {
+    lexer->current++;
+    lexer->column++;
+  } while (*lexer->current == '=');
 
   return tokenize(lexer, lookup_symbol(lexer));
 }
@@ -156,7 +159,7 @@ struct TokenList *lexer_scan(struct Lexer lexer) {
       token = scan_identifier(&lexer);
 
     else if (isdigit(*lexer.current))
-      token = scan_number(&lexer);
+      token = scan_numeric(&lexer);
 
     else if (*lexer.current == '"')
       token = scan_string(&lexer);
