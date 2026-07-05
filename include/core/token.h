@@ -40,8 +40,15 @@
   X(TOKEN_USE, "use")                                                          \
   X(TOKEN_AS, "as")                                                            \
   X(TOKEN_LET, "let")                                                          \
-  X(TOKEN_FLOAT, "float")                                                      \
-  X(TOKEN_INT, "int")                                                          \
+  X(TOKEN_FLOAT32, "f32")                                                      \
+  X(TOKEN_FLOAT64, "f64")                                                      \
+  X(TOKEN_INT8, "i8")                                                          \
+  X(TOKEN_INT16, "i16")                                                        \
+  X(TOKEN_INT32, "i32")                                                        \
+  X(TOKEN_INT64, "i64")                                                        \
+  X(TOKEN_BOOL, "bool")                                                        \
+  X(TOKEN_CHAR, "char")                                                        \
+  X(TOKEN_STR, "str")                                                          \
   X(TOKEN_BIT, "bit")                                                          \
   X(TOKEN_BITS, "bits")                                                        \
   X(TOKEN_BYTE, "byte")                                                        \
