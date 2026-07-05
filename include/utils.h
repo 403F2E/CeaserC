@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "core/core.h"
+#include "core/diagnostic.h"
 
 #include "file_handler.h"
 #include "lexer/tokenizer.h"

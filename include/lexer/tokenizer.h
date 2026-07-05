@@ -17,8 +17,8 @@ struct Lexer {
   size_t column;
 };
 
-struct Token tokenize(struct Lexer *lexer, enum TOKENTYPE type);
+struct Token tokenize(struct Lexer *, enum TOKENTYPE);
 
-struct TokenList *lexer_scan(struct Lexer lexer);
+struct TokenList *lexer_scan(struct Lexer *);
 
 #endif

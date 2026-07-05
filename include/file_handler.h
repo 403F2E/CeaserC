@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-char *read_file(const char *file);
+char *read_file(const char *);
 
-int extension_verifier(const char *filename, const char *extension);
+int extension_verifier(const char *, const char *);
 
 #endif

@@ -137,35 +137,35 @@ static struct Token scan_string(struct Lexer *lexer) {
 /*
  * lexer function
  */
-struct TokenList *lexer_scan(struct Lexer lexer) {
+struct TokenList *lexer_scan(struct Lexer *lexer) {
   struct TokenList *tokens = create_token_list();
 
   if (!tokens)
     return NULL;
 
-  while (*lexer.current != '\0') {
-    skip_whitespace(&lexer);
+  while (*lexer->current != '\0') {
+    skip_whitespace(lexer);
 
-    lexer.start = lexer.current;
+    lexer->start = lexer->current;
 
     struct Token token;
 
-    if (is_identifier_start(*lexer.current))
-      token = scan_identifier(&lexer);
+    if (is_identifier_start(*lexer->current))
+      token = scan_identifier(lexer);
 
-    else if (isdigit(*lexer.current))
-      token = scan_numeric(&lexer);
+    else if (isdigit(*lexer->current))
+      token = scan_numeric(lexer);
 
-    else if (*lexer.current == '"')
-      token = scan_string(&lexer);
+    else if (*lexer->current == '"')
+      token = scan_string(lexer);
 
     else
-      token = scan_operator(&lexer);
+      token = scan_operator(lexer);
 
     push_token_list(tokens, token);
   }
 
-  push_token_list(tokens, tokenize(&lexer, TOKEN_EOF));
+  push_token_list(tokens, tokenize(lexer, TOKEN_EOF));
 
   return tokens;
 }

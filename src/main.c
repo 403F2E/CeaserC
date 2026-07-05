@@ -3,12 +3,12 @@
 
 int main(const int argc, const char *argv[]) {
   if (argc < 2) {
-    printf("Usage: %s <FILE PATH to Compile> ...\n", argv[0]);
+    fprintf(stderr, "Usage: %s <FILE PATH to Compile> ...\n", argv[0]);
     return 1;
   }
 
   if (extension_verifier(argv[1], ".rzc")) {
-    printf("Error: Unsupported file extension. Please use .kno\n");
+    fprintf(stderr, "Error: Unsupported file extension. Please use .kno\n");
     return 1;
   }
 
@@ -21,16 +21,23 @@ int main(const int argc, const char *argv[]) {
       .line = 1,
   };
 
-  struct TokenList *tokenList = lexer_scan(lexer);
+  struct TokenList *tokenList = lexer_scan(&lexer);
   printf("\n******\n");
   printTokenList(tokenList);
 
-  // AST_Tree *ast = parser(tokenList);
+  struct Parser parser = {
+      .tokens = (struct TokenList *)_malloc(sizeof(struct TokenList)),
+      .current = tokenList->count,
+      .had_error = false};
+
+  parser.tokens = tokenList;
+
+  struct ASTNode *ast = parse_program(&parser);
 
   tokenList = NULL;
   // ast = NULL;
 
   free(tokenList);
-  // free(ast);
+  free(ast);
   return 0;
 }
